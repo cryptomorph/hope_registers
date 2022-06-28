@@ -2,6 +2,8 @@
 //
 
 #include "framework.h"
+#include "commdlg.h"
+
 #include "CardScanner.h"
 
 #include "AboutDialog.h"
@@ -219,11 +221,33 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 break;
 
             case IDM_FILE_CLEAR:
+
+                if (IDOK == MessageBox(hWnd, L"Are you sure? This will clear the current screen and lose all data.", L"Just Checking", MB_ICONINFORMATION)) {
+                    // Clear the EditText control and reset the application back to not configure
+                    clearEditText();
+                    _app_state = NOT_CONFIGURED;
+                    set_menus(hWnd);
+                }
                 break;
 
-            case IDM_SAVE:
-                break;
+            case IDM_FILE_SAVE:
+            {
+                WCHAR szFileName[MAX_PATH];
+                OPENFILENAME ofn;
+                ZeroMemory(&ofn, sizeof(ofn));
+                ofn.lStructSize = sizeof(ofn);
+                ofn.hwndOwner = hWnd;
+                ofn.lpstrFilter = L"Text Files (*.txt)";
+                ofn.nMaxFile = MAX_PATH;
+                ofn.Flags = OFN_EXPLORER | OFN_HIDEREADONLY | OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT;
+                ofn.lpstrDefExt = L".txt";
 
+                if (GetSaveFileName(&ofn)) {
+
+                }
+
+                break;
+            }
             case IDM_EXIT:
                 DestroyWindow(hWnd);
                 break;
@@ -335,9 +359,9 @@ void set_menus(HWND hWnd) {
     case NOT_CONFIGURED:
         // Cannot connect, poll etc - basically everything gray
         EnableMenuItem(hMenu, IDM_FILE_CONFIGURE, MF_ENABLED);
-        EnableMenuItem(hMenu, IDM_FILE_CLEAR, MF_GRAYED);
+        EnableMenuItem(hMenu, IDM_FILE_CLEAR, MF_ENABLED);
         EnableMenuItem(hMenu, IDM_FILE_UPLOAD, MF_GRAYED);
-        EnableMenuItem(hMenu, IDM_FILE_SAVE, MF_GRAYED);
+        EnableMenuItem(hMenu, IDM_FILE_SAVE, MF_ENABLED);
         EnableMenuItem(hMenu, IDM_CONNECT, MF_GRAYED);
         EnableMenuItem(hMenu, IDM_CARD_READ, MF_GRAYED);
         EnableMenuItem(hMenu, IDM_CARD_STOPREAD, MF_GRAYED);
@@ -350,7 +374,7 @@ void set_menus(HWND hWnd) {
         EnableMenuItem(hMenu, IDM_FILE_CONFIGURE, MF_GRAYED);
         EnableMenuItem(hMenu, IDM_FILE_CLEAR, MF_ENABLED);
         EnableMenuItem(hMenu, IDM_FILE_UPLOAD, MF_GRAYED);
-        EnableMenuItem(hMenu, IDM_FILE_SAVE, MF_GRAYED);
+        EnableMenuItem(hMenu, IDM_FILE_SAVE, MF_ENABLED);
         EnableMenuItem(hMenu, IDM_CONNECT, MF_ENABLED);
         EnableMenuItem(hMenu, IDM_CARD_READ, MF_GRAYED);
         EnableMenuItem(hMenu, IDM_CARD_STOPREAD, MF_GRAYED);
@@ -360,9 +384,9 @@ void set_menus(HWND hWnd) {
     case READER_CONNECTED:
         // Now we can decide to start reading from the card
         EnableMenuItem(hMenu, IDM_FILE_CONFIGURE, MF_GRAYED);
-        EnableMenuItem(hMenu, IDM_FILE_CLEAR, MF_GRAYED);
+        EnableMenuItem(hMenu, IDM_FILE_CLEAR, MF_ENABLED);
         EnableMenuItem(hMenu, IDM_FILE_UPLOAD, MF_GRAYED);
-        EnableMenuItem(hMenu, IDM_FILE_SAVE, MF_GRAYED);
+        EnableMenuItem(hMenu, IDM_FILE_SAVE, MF_ENABLED);
         EnableMenuItem(hMenu, IDM_CONNECT, MF_GRAYED);
         EnableMenuItem(hMenu, IDM_CARD_READ, MF_ENABLED);
         EnableMenuItem(hMenu, IDM_CARD_STOPREAD, MF_GRAYED);
@@ -384,9 +408,9 @@ void set_menus(HWND hWnd) {
     case READER_NOT_POLLING:
         // We can restart polling and/or disconnect
         EnableMenuItem(hMenu, IDM_FILE_CONFIGURE, MF_GRAYED);
-        EnableMenuItem(hMenu, IDM_FILE_CLEAR, MF_GRAYED);
+        EnableMenuItem(hMenu, IDM_FILE_CLEAR, MF_ENABLED);
         EnableMenuItem(hMenu, IDM_FILE_UPLOAD, MF_GRAYED);
-        EnableMenuItem(hMenu, IDM_FILE_SAVE, MF_GRAYED);
+        EnableMenuItem(hMenu, IDM_FILE_SAVE, MF_ENABLED);
         EnableMenuItem(hMenu, IDM_CONNECT, MF_GRAYED);
         EnableMenuItem(hMenu, IDM_CARD_READ, MF_ENABLED);
         EnableMenuItem(hMenu, IDM_CARD_STOPREAD, MF_GRAYED);

@@ -53,14 +53,14 @@ SCARDHANDLE  hCard = 0;				// Card context handle
 DWORD dwActProtocol = 0;
 
 void clearEditText() {
-
+	SetWindowText(hEditWindow, L"");
 }
 
 void appendEditText(WCHAR* newText) {
 	int index = GetWindowTextLength(hEditWindow);
-	//SetFocus(hEditWindow);                                          // set focus
+	//SetFocus(hEditWindow);											// set focus
 	SendMessage(hEditWindow, EM_SETSEL, (WPARAM)index, (LPARAM)index);  // set selection - end of text
-	SendMessage(hEditWindow, EM_REPLACESEL, 0, (LPARAM) newText);   // append!
+	SendMessage(hEditWindow, EM_REPLACESEL, 0, (LPARAM) newText);		// append!
 }
 
 
