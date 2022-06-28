@@ -95,7 +95,7 @@ LONG _ct_get_scard_uid(SCARDHANDLE hCard, BYTE *rcv_buffer, DWORD *rcv_len) {
     snd_buffer[3] = 0x00;
     snd_buffer[4] = 0x00;
 
-    LONG retCode = SCardTransmit(hCard, NULL, snd_buffer, snd_len, NULL, rcv_buffer, rcv_len);
+    LONG retCode = SCardTransmit(hCard, 0, snd_buffer, snd_len, NULL, rcv_buffer, rcv_len);
 
     return retCode;
 }
@@ -128,7 +128,7 @@ LONG _ct_authenticate_sid_block(SCARDHANDLE hCard, BYTE* rcv_buffer, DWORD* rcv_
     snd_buffer[8] = 0x60;
     snd_buffer[9] = 0x00;
 
-    LONG retCode = SCardTransmit(hCard, NULL, snd_buffer, snd_len, NULL, rcv_buffer, rcv_len);
+    LONG retCode = SCardTransmit(hCard, 0, snd_buffer, snd_len, NULL, rcv_buffer, rcv_len);
 
     return err;
 }
@@ -164,7 +164,7 @@ LONG _ct_read_sid_block(SCARDHANDLE hCard, BYTE *rcv_buffer, DWORD *rcv_len) {
     snd_buffer[3] = 0x14;
     snd_buffer[4] = 0x10;
 
-    LONG retCode = SCardTransmit(hCard, NULL, snd_buffer, snd_len, NULL, rcv_buffer, rcv_len);
+    LONG retCode = SCardTransmit(hCard, 0, snd_buffer, snd_len, NULL, rcv_buffer, rcv_len);
 
     return err;
 }
