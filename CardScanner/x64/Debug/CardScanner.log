@@ -1,0 +1,12 @@
+﻿  CardScanner.c
+C:\DEV\CardScanner\CardScanner.c(217,21): warning C4013: '_beginthread' undefined; assuming extern returning int
+  ct_error.c
+  ct_interface.c
+  Generating Code...
+ct_interface.obj : error LNK2019: unresolved external symbol SCardEstablishContext referenced in function _ct_get_context
+ct_interface.obj : error LNK2019: unresolved external symbol SCardListReadersW referenced in function _ct_get_reader_list
+ct_interface.obj : error LNK2019: unresolved external symbol SCardConnectW referenced in function _ct_scard_connect
+ct_interface.obj : error LNK2019: unresolved external symbol SCardDisconnect referenced in function _ct_scard_disconnect
+ct_interface.obj : error LNK2019: unresolved external symbol SCardTransmit referenced in function _ct_authenticate_sid_block
+..\ACS\lib\i386\ctacs.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
+C:\DEV\CardScanner\x64\Debug\CardScanner.exe : fatal error LNK1120: 5 unresolved externals
